@@ -21,6 +21,16 @@ public class RecipeController {
         return recipes;
     }
 
+    @GetMapping("{id}")
+    public Recipe getSpecificRecipe(@PathVariable("id") int id) {
+        for (int i = 0; i < recipes.size(); i++) {
+            if (recipes.get(i).getId() == id) {
+                return recipes.get(i);
+            }
+        }
+        return null;
+    }
+
     @PostMapping
     public void addRecipe(@RequestBody Recipe recipe) {
         recipes.add(recipe);

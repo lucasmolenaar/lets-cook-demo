@@ -46,7 +46,24 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateUser(long id, User user) {
+    public void updateUser(long id, User updatedUser) {
+        User user = null;
 
+        for (int i = 0; i < users.size(); i++) {
+            if (id == users.get(i).getId()) {
+                user = users.get(i);
+            }
+        }
+
+        if (user == null) {
+            throw new RecordNotFoundException("User not found");
+        } else {
+            user.setId(updatedUser.getId());
+            user.setUsername(updatedUser.getUsername());
+            user.setFirstName(updatedUser.getFirstName());
+            user.setLastName(updatedUser.getLastName());
+            user.setEmail(updatedUser.getEmail());
+            user.setAge(updatedUser.getAge());
+        }
     }
 }

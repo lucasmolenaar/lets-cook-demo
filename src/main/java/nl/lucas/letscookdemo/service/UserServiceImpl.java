@@ -42,7 +42,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void removeUser(long id) {
+        User user = null;
 
+        for (int i = 0; i < users.size(); i++) {
+            if (id == users.get(i).getId()) {
+                user = users.get(i);
+            }
+        }
+
+        if (user == null) {
+            throw new RecordNotFoundException("User not found");
+        } else {
+            users.remove(user);
+        }
     }
 
     @Override

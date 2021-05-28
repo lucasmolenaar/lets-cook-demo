@@ -1,6 +1,8 @@
 package nl.lucas.letscookdemo.controller;
 
 import nl.lucas.letscookdemo.model.Recipe;
+import nl.lucas.letscookdemo.service.RecipeService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,45 +13,49 @@ import java.util.List;
 @RequestMapping("/recipes")
 public class RecipeController {
 
-    private List<Recipe> recipes;
-
-    //Contructor
-    public RecipeController() {
-        this.recipes = new ArrayList<>();
-    }
+    @Autowired
+    private RecipeService recipeService;
 
     @GetMapping
-    public List<Recipe> getRecipes(@RequestParam(value = "page", defaultValue = "1") int page, @RequestParam(value = "limit", defaultValue = "50") int limit) {
-        return recipes;
+    public ResponseEntity<Object> getRecipes() {
+        return ResponseEntity.ok().body(recipeService.getRecipes());
     }
 
     @GetMapping("{id}")
-    public Recipe getRecipe(@PathVariable("id") int id) {
-        for (int i = 0; i < recipes.size(); i++) {
-            if (recipes.get(i).getId() == id) {
-                return recipes.get(i);
-            }
-        }
-        return null;
+    public ResponseEntity<Object> getRecipe(@PathVariable("id") long id) {
+        Recipe recipe = recipeService.getRecipe(id);
+        return ResponseEntity.ok().body(recipe);
     }
 
     @PostMapping
-    public void addRecipe(@RequestBody Recipe recipe) {
-        recipes.add(recipe);
-    }
-
-//    @DeleteMapping("{id}")
-//    public void deleteRecipe(@PathVariable("id") int id) {
-//        for (int i = 0; i < recipes.size(); i++) {
-//            if (recipes.get(i).getId() == id) {
-//                recipes.remove(i);
-//            }
-//        }
-//    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteRecipe(@PathVariable int id) {
-        recipes.remove(id);
+    public ResponseEntity<Object> addRecipe(@RequestBody Recipe recipe) {
+        recipeService.addRecipe(recipe);
         return ResponseEntity.noContent().build();
     }
+
+    @PutMapping("{id}")
+    public ResponseEntity<Object> updateRecipe(@PathVariable("id") long id, @RequestBody Recipe recipe) {
+        recipeService.updateRecipe(id, recipe);
+        return ResponseEntity.noContent().build();
+    }
+
+
+
+
+
+
+////    @DeleteMapping("{id}")
+////    public void deleteRecipe(@PathVariable("id") int id) {
+////        for (int i = 0; i < recipes.size(); i++) {
+////            if (recipes.get(i).getId() == id) {
+////                recipes.remove(i);
+////            }
+////        }
+////    }
+//
+//    @DeleteMapping("/{id}")
+//    public ResponseEntity<Void> deleteRecipe(@PathVariable int id) {
+//        recipes.remove(id);
+//        return ResponseEntity.noContent().build();
+//    }
 }

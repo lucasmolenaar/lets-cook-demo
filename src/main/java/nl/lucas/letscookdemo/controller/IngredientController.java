@@ -1,5 +1,6 @@
-package nl.lucas.letscookdemo.ingredient;
+package nl.lucas.letscookdemo.controller;
 
+import nl.lucas.letscookdemo.model.Ingredient;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;

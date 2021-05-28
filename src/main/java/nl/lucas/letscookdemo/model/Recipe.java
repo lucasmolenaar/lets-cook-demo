@@ -1,4 +1,4 @@
-package nl.lucas.letscookdemo.recipe;
+package nl.lucas.letscookdemo.model;
 
 public class Recipe {
     private int id;
